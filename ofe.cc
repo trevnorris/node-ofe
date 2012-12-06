@@ -55,7 +55,7 @@ static void OnFatalError(const char* location, const char* message) {
 Handle<Value> Method(const Arguments& args) {
 	HandleScope scope;
 	V8::SetFatalErrorHandler(OnFatalError);
-	return scope.Close(String::New(V8::GetVersion()));
+	return scope.Close(String::New("done"));
 }
 
 void Init(Handle<Object> target) {
