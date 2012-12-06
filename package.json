@@ -1,7 +1,7 @@
 {
 	"name": "ofe",
 	"main": "ofe",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"keywords": ["Fatal", "Error", "OnFatalError"],
 	"description": "Overwrite OnFatalError to produce heapdump",
 	"homepage": "https://github.com/trevnorris/node-ofe",
