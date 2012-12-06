@@ -1,0 +1,20 @@
+{
+	"name": "ofe",
+	"main": "ofe",
+	"version": "0.1.0",
+	"keywords": ["Fatal", "Error", "OnFatalError"],
+	"description": "Overwrite OnFatalError to produce heapdump",
+	"homepage": "https://github.com/trevnorris/node-ofe",
+	"author": {
+		"name": "Trevor Norris",
+		"email": "trev.norris@gmail.com",
+		"url": "http://trevorjnorris.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/trevnorris/node-ofe.git"
+	},
+	"engines": {
+		"node": ">=0.6.0"
+	}
+}
