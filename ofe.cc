@@ -1,9 +1,8 @@
-#define BUILDING_NODE_EXTENSION
-
 #include <node.h>
 #include <v8.h>
 #include <v8-profiler.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 using namespace v8;
 
