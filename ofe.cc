@@ -2,7 +2,11 @@
 #include <v8.h>
 #include <v8-profiler.h>
 #include <stdlib.h>
-#include <sys/time.h>
+#if defined(_WIN32)
+	#include <time.h>
+#else
+	#include <sys/time.h>
+#endif
 
 using namespace v8;
 
