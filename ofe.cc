@@ -1,5 +1,4 @@
-#include <node.h>
-#include <v8.h>
+#include <nan.h>
 #include <v8-profiler.h>
 #include <stdlib.h>
 #if defined(_WIN32)
@@ -48,23 +47,28 @@ static void OnFatalError(const char* location, const char* message) {
 	FILE* fp = fopen(filename, "w");
 	if (fp == NULL) abort();
 
+#if NODE_VERSION_AT_LEAST(0, 12, 0)
+	Isolate* isolate = Isolate::GetCurrent();
+	const HeapSnapshot* snap = isolate->GetHeapProfiler()->TakeHeapSnapshot(String::Empty(isolate));
+#else
 	const HeapSnapshot* snap = HeapProfiler::TakeSnapshot(String::Empty());
+#endif
 	FileOutputStream stream(fp);
 	snap->Serialize(&stream, HeapSnapshot::kJSON);
 	fclose(fp);
 	exit(1);
 }
 
-Handle<Value> Method(const Arguments& args) {
-	HandleScope scope;
+NAN_METHOD(Method) {
+	NanScope();
 	V8::SetFatalErrorHandler(OnFatalError);
-	return scope.Close(String::New("done"));
+	NanReturnValue(NanNew("done"));
 }
 
 void Init(Handle<Object> target) {
 	V8::SetFatalErrorHandler(OnFatalError);
-	target->Set(String::NewSymbol("call"),
-			FunctionTemplate::New(Method)->GetFunction());
+	target->Set(NanNew("call"),
+				NanNew<FunctionTemplate>(Method)->GetFunction());
 }
 
 NODE_MODULE(ofe, Init)
