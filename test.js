@@ -1,4 +1,5 @@
 require('./ofe').call();
 
-var str = '1';
-while (true) str += str;
+var i = 0;
+var a = {};
+while (true) a[++ i] = i;
