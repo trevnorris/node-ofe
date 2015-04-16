@@ -47,7 +47,7 @@ static void OnFatalError(const char* location, const char* message) {
 	FILE* fp = fopen(filename, "w");
 	if (fp == NULL) abort();
 
-#if NODE_VERSION_AT_LEAST(0, 12, 0)
+#if NODE_VERSION_AT_LEAST(0, 11, 13)
 	Isolate* isolate = Isolate::GetCurrent();
 	const HeapSnapshot* snap = isolate->GetHeapProfiler()->TakeHeapSnapshot(String::Empty(isolate));
 #else
