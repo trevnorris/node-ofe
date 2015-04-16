@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #if defined(_WIN32)
 	#include <time.h>
+	#define snprintf _snprintf
 #else
 	#include <sys/time.h>
 #endif
