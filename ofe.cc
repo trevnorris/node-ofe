@@ -36,15 +36,14 @@ static void OnFatalError(const char* location, const char* message) {
 		fprintf(stderr, "FATAL ERROR: %s\n", message);
 	}
 	fprintf(stderr, "Generating HeapDump\n");
-	timeval tv;
-	if (gettimeofday(&tv, NULL)) abort();
+	
+    time_t rawtime;
+    struct tm * timeinfo;
+	time(&rawtime);
+    timeinfo = localtime(&rawtime);
 
-	char filename[256];
-	snprintf(filename,
-			sizeof(filename),
-			"heapdump-%u.%u.heapsnapshot",
-			static_cast<unsigned int>(tv.tv_sec),
-			static_cast<unsigned int>(tv.tv_usec));
+	char filename[256]; ;
+    strftime(filename, sizeof(filename),"%Y%m%dT%H%M%S.heapsnapshot", timeinfo);            
 	FILE* fp = fopen(filename, "w");
 	if (fp == NULL) abort();
 
