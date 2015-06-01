@@ -1,3 +1,4 @@
 /build/
 heapdump*
 node_modules
+*.heapsnapshot
