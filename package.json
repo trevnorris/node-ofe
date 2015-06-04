@@ -1,25 +1,25 @@
 {
-	"name": "ofe",
-	"main": "ofe",
-	"version": "0.3.0",
-	"keywords": ["On Fatal Error", "Fatal", "Error", "OnFatalError"],
-	"description": "Overwrite OnFatalError to produce heapdump",
-	"homepage": "https://github.com/trevnorris/node-ofe",
-	"author": {
-		"name": "Trevor Norris",
-		"email": "trev.norris@gmail.com",
-		"url": "http://trevorjnorris.com"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/trevnorris/node-ofe.git"
-	},
-	"engines": {
-		"node": ">=0.6.0"
-	},
-	"dependencies": {
-		"nan": "^1.7.0",
-		"bindings": "^1.2.1"
-	},
-	"license": "MIT"
+  "name": "ofe",
+  "main": "ofe",
+  "version": "0.3.0",
+  "keywords": ["On Fatal Error", "Fatal", "Error", "OnFatalError"],
+  "description": "Overwrite OnFatalError to produce heapdump",
+  "homepage": "https://github.com/trevnorris/node-ofe",
+  "author": {
+    "name": "Trevor Norris",
+    "email": "trev.norris@gmail.com",
+    "url": "http://trevorjnorris.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/trevnorris/node-ofe.git"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "dependencies": {
+    "nan": "^1.7.0",
+    "bindings": "^1.2.1"
+  },
+  "license": "MIT"
 }
