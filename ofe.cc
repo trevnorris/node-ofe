@@ -49,8 +49,13 @@ static void OnFatalError(const char* location, const char* message) {
 
 #if NODE_VERSION_AT_LEAST(0, 11, 13)
   Isolate* isolate = Isolate::GetCurrent();
+#if NODE_VERSION_AT_LEAST(3, 0, 0)
+  const HeapSnapshot* snap =
+      isolate->GetHeapProfiler()->TakeHeapSnapshot();
+#else
   const HeapSnapshot* snap =
       isolate->GetHeapProfiler()->TakeHeapSnapshot(String::Empty(isolate));
+#endif
 #else
   const HeapSnapshot* snap = HeapProfiler::TakeSnapshot(String::Empty());
 #endif
@@ -61,15 +66,15 @@ static void OnFatalError(const char* location, const char* message) {
 }
 
 NAN_METHOD(Method) {
-  NanScope();
+  Nan::HandleScope scope;
   V8::SetFatalErrorHandler(OnFatalError);
-  NanReturnValue(NanNew("done"));
+  info.GetReturnValue().Set(Nan::New("done").ToLocalChecked());
 }
 
 void Init(Handle<Object> target) {
   V8::SetFatalErrorHandler(OnFatalError);
-  target->Set(NanNew("call"),
-      NanNew<FunctionTemplate>(Method)->GetFunction());
+  target->Set(Nan::New("call").ToLocalChecked(),
+      Nan::New<FunctionTemplate>(Method)->GetFunction());
 }
 
 NODE_MODULE(ofe, Init)
