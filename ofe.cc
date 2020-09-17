@@ -44,37 +44,39 @@ static void OnFatalError(const char* location, const char* message) {
 
   char filename[256];
   strftime(filename, sizeof(filename),"%Y%m%dT%H%M%S.heapsnapshot", timeinfo);
+
   FILE* fp = fopen(filename, "w");
   if (fp == NULL) abort();
 
-#if NODE_VERSION_AT_LEAST(0, 11, 13)
-  Isolate* isolate = Isolate::GetCurrent();
-#if NODE_VERSION_AT_LEAST(3, 0, 0)
   const HeapSnapshot* snap =
-      isolate->GetHeapProfiler()->TakeHeapSnapshot();
-#else
-  const HeapSnapshot* snap =
-      isolate->GetHeapProfiler()->TakeHeapSnapshot(String::Empty(isolate));
-#endif
-#else
-  const HeapSnapshot* snap = HeapProfiler::TakeSnapshot(String::Empty());
-#endif
+      Isolate::GetCurrent()->GetHeapProfiler()->TakeHeapSnapshot();
+
   FileOutputStream stream(fp);
   snap->Serialize(&stream, HeapSnapshot::kJSON);
   fclose(fp);
   exit(1);
 }
 
-NAN_METHOD(Method) {
+NAN_METHOD(Call) {
   Nan::HandleScope scope;
-  V8::SetFatalErrorHandler(OnFatalError);
+  Isolate::GetCurrent()->SetFatalErrorHandler(OnFatalError);
   info.GetReturnValue().Set(Nan::New("done").ToLocalChecked());
 }
 
-void Init(Handle<Object> target) {
-  V8::SetFatalErrorHandler(OnFatalError);
-  target->Set(Nan::New("call").ToLocalChecked(),
-      Nan::New<FunctionTemplate>(Method)->GetFunction());
+NAN_METHOD(Trigger) {
+  Nan::HandleScope scope;
+  OnFatalError("here", "and there");
 }
 
-NODE_MODULE(ofe, Init)
+NODE_MODULE_INIT(/* exports, module, context */) {
+  exports->Set(
+      context,
+      Nan::New("call").ToLocalChecked(),
+      Nan::New<FunctionTemplate>(Call)->GetFunction(context)
+        .ToLocalChecked()).FromJust();
+  exports->Set(
+      context,
+      Nan::New("trigger").ToLocalChecked(),
+      Nan::New<FunctionTemplate>(Trigger)->GetFunction(context)
+        .ToLocalChecked()).FromJust();
+}
